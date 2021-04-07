@@ -26,9 +26,7 @@ public class DogController {
         dogManagementService.updateDogs(name, dog);
     }
 
-    /*
-    //test
-    @GetMapping("/dogs")
+    @GetMapping
     public List<Dog> getAllDogs() {
         return dogManagementService.getAllDogs();
     }
@@ -42,7 +40,7 @@ public class DogController {
     public void addMedicalRecords(@PathVariable String name, @RequestBody String records) {
         dogManagementService.addMedicalRecords(name, records);
     }
-    */
+
 
     // 등록된 강아지 조회
     @GetMapping("/dogs/by-name/{name}")
