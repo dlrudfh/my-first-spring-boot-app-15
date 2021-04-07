@@ -17,27 +17,33 @@ public class DogManagementService {
     @Autowired
     private DogRepository dogRepository;
 
-    public void insertDog(Dog dog) {
+    public void insertDog(Dog dog) { // 신규 강아지 등록
         dogRepository.insertDog(dog);
     }
-
-    public List<Dog> getAllDogs() {
+  
+    public List<Dog> getDogs() {
         return dogRepository.findAllDogs();
     }
-
-    public void modifyDogsKind(String name, String kind) {
+  
+    public void updateDogs(String name, Dog dog) {  // 통째로 강아지 정보 수정
+        if (dogRepository.findDog(name) == null) {
+            throw new DogNotFoundException();
+        }
+        dogRepository.updateDogs(name, dog);
+    }
+  
+    public void modifyDogsKind(String name, String kind) {  // 강아지 kind 정보 수정
         if (dogRepository.findDog(name) == null) {
             throw new DogNotFoundException();
         }
         dogRepository.modifyDogsKind(name, kind);
     }
 
-    public void addMedicalRecords(String name, String records) {
+    public void addMedicalRecords(String name, String records) {  // 강아지 진료기록 추가
         if (dogRepository.findDog(name) == null) {
             throw new DogNotFoundException();
         }
         dogRepository.addMedicalRecords(name, records);
     }
-
 
 }

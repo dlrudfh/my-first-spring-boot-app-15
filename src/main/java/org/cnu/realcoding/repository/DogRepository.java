@@ -1,6 +1,7 @@
 package org.cnu.realcoding.repository;
 
 import org.cnu.realcoding.domain.Dog;
+import org.cnu.realcoding.exception.DogConflictException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -25,8 +26,27 @@ public class DogRepository {
     }
 
     public void insertDog(Dog dog) {
+        if (mongoTemplate.exists(Query.query(Criteria.where("name").is(dog.getName())), Dog.class)) {
+            Dog newDog = mongoTemplate.findOne(Query.query(Criteria.where("name").is(dog.getName())), Dog.class);
+            if (newDog.getOwnerName().equals(dog.getOwnerName()))
+                if(newDog.getOwnerPhoneNumber().equals(dog.getOwnerPhoneNumber()))
+                    throw new DogConflictException();
+        }
         mongoTemplate.insert(dog);
     }
+
+    public void updateDogs(String name, Dog dog) {
+        Query query = new Query(Criteria.where("name").is(name));
+        Update update = new Update();
+        update.set("name", dog.getName());
+        update.set("kind", dog.getKind());
+        update.set("ownerName", dog.getOwnerName());
+        update.set("ownerPhoneNumber", dog.getOwnerPhoneNumber());
+        update.set("medicalRecords", findDog(name).getMedicalRecords());
+        mongoTemplate.updateFirst(query, update, Dog.class);
+
+    }
+
 
     public List<Dog> findAllDogs() {
         return mongoTemplate.findAll(Dog.class);
