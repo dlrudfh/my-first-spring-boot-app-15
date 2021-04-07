@@ -62,18 +62,20 @@ public class DogManagementService {
         dogRepository.updateDogs(name,ownername,ownerphonenumber,dog);
     }
 
-    public void modifyDogsKind(String name, String kind) {  // 강아지 kind 정보 수정
+    public void modifyDogsKind(String name, String ownername,
+                               String ownerphonenumber, String kind) {  // 강아지 kind 정보 수정
         if (dogRepository.findDog(name) == null) {
             throw new DogNotFoundException();
         }
-        dogRepository.modifyDogsKind(name, kind);
+        dogRepository.modifyDogsKind(name, ownername, ownerphonenumber, kind);
     }
 
-    public void addMedicalRecords(String name, String records) {  // 강아지 진료기록 추가
+    public void addMedicalRecords(String name, String ownername,
+                                  String ownerphonenumber, String records) {  // 강아지 진료기록 추가
         if (dogRepository.findDog(name) == null) {
             throw new DogNotFoundException();
         }
-        dogRepository.addMedicalRecords(name, records);
+        dogRepository.addMedicalRecords(name, ownername, ownerphonenumber, records);
     }
 
 }
