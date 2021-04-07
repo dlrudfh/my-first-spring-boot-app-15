@@ -2,6 +2,7 @@ package org.cnu.realcoding.repository;
 
 import org.cnu.realcoding.domain.Dog;
 import org.cnu.realcoding.exception.DogConflictException;
+import org.cnu.realcoding.exception.DogNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -9,6 +10,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -26,28 +28,39 @@ public class DogRepository {
     }
 
     public List<Dog> findDogByName(String name) {
-        Criteria criteria = new Criteria(name);
-        Query query = new Query(criteria);
-        return mongoTemplate.find(query, Dog.class, "name");
+        return mongoTemplate
+                .find(
+                        Query.query(Criteria.where("name").is(name)),
+                        Dog.class
+                );
     }
 
     public List<Dog> findDogByOwnerName(String ownerName) {
-        Criteria criteria = new Criteria(ownerName);
-        Query query = new Query(criteria);
-        return mongoTemplate.find(query, Dog.class, "ownerName");
+        return mongoTemplate
+                .find(
+                        Query.query(Criteria.where("ownerName").is(ownerName)),
+                        Dog.class
+                );
     }
 
     public List<Dog> findDogByOwnerPhoneNumber(String ownerPhoneNumber) {
-        Criteria criteria = new Criteria(ownerPhoneNumber);
-        Query query = new Query(criteria);
-        return mongoTemplate.find(query, Dog.class, "ownerPhoneNumber");
+        return mongoTemplate
+                .find(
+                        Query.query(Criteria.where("ownerPhoneNumber").is(ownerPhoneNumber)),
+                        Dog.class
+                );
     }
-    public List<Dog> findDogByNameOwnerNameOwnerPhoneNumber(String name, String ownerName, String ownerPhoneNumber) {
-        Criteria criteria = new Criteria(name);
-        criteria.is(ownerName);
-        criteria.is(ownerPhoneNumber);
-        Query query = new Query(criteria);
-        return mongoTemplate.find(query, Dog.class, "ownerPhoneNumber");
+
+    public Dog findDogByNameOwnerNameOwnerPhoneNumber(String name, String ownerName, String ownerPhoneNumber) {
+        if (mongoTemplate.exists(Query.query(Criteria.where("name").is(name)), Dog.class)) {
+            Dog newDog = mongoTemplate.findOne(Query.query(Criteria.where("name").is(name)), Dog.class);
+            if (newDog.getOwnerName().equals(newDog.getOwnerName())){
+                if (newDog.getOwnerPhoneNumber().equals(newDog.getOwnerPhoneNumber())) {
+                    return newDog;
+                }
+            }
+        }
+        throw new DogNotFoundException();
     }
 
 

@@ -17,17 +17,30 @@ public class DogController {
 
     @PostMapping("/dogs")
     @ResponseStatus(HttpStatus.CREATED)
-    public void createDogs(@RequestBody  Dog dog) {
+    public void createDogs(@RequestBody Dog dog) {
         dogManagementService.insertDog(dog);
     }
 
-    /*
-    //test
-    @GetMapping("/dogs")
-    public List<Dog> getAllDogs() {
-        return dogManagementService.getDogs();
+    @PutMapping
+    public void updateDogs(@PathVariable String name, @RequestBody Dog dog) {
+        dogManagementService.updateDogs(name, dog);
     }
-    */
+
+    @GetMapping
+    public List<Dog> getAllDogs() {
+        return dogManagementService.getAllDogs();
+    }
+
+    @PatchMapping("/dogs/{name}")
+    public void modifyDogsKind(@PathVariable String name, @RequestBody String kind) {
+        dogManagementService.modifyDogsKind(name, kind);
+    }
+
+    @PatchMapping("/dogs/{name}/{ownerName}")
+    public void addMedicalRecords(@PathVariable String name, @RequestBody String records) {
+        dogManagementService.addMedicalRecords(name, records);
+    }
+
 
     // 등록된 강아지 조회
     @GetMapping("/dogs/by-name/{name}")
@@ -47,7 +60,7 @@ public class DogController {
 
     // http://localhost:8080/dogs?name=ian&ownername=ian&owe
     @GetMapping("/dogs")
-    public List<Dog> getDogByNameOwnerNameOwnerPhoneNumber(@RequestParam String name, @RequestParam String ownerName , @RequestParam String ownerPhoneNumber) {
+    public Dog getDogByNameOwnerNameOwnerPhoneNumber(@RequestParam String name, @RequestParam String ownerName, @RequestParam String ownerPhoneNumber) {
         return dogManagementService.getDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber);
     }
 

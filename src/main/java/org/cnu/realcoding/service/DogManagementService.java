@@ -21,36 +21,34 @@ public class DogManagementService {
         dogRepository.insertDog(dog);
     }
 
-    public List<Dog> getDogs() {
-        return dogRepository.findAllDogs();
-    }
-
     public List<Dog> getDogByName(String name) {
-        if(dogRepository.findDogByName(name) == null) {
+        if(dogRepository.findDogByName(name).isEmpty()) {
             throw new DogNotFoundException();
         }
         return dogRepository.findDogByName(name);
     }
 
     public List<Dog> getDogByOwnerName(String ownerName) {
-        if(dogRepository.findDogByOwnerName(ownerName) == null) {
+        if(dogRepository.findDogByOwnerName(ownerName).isEmpty()) {
             throw new DogNotFoundException();
         }
         return dogRepository.findDogByOwnerName(ownerName);
     }
 
     public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
-        if(dogRepository.findDogByOwnerPhoneNumber(ownerPhoneNumber) == null) {
+        if(dogRepository.findDogByOwnerPhoneNumber(ownerPhoneNumber).isEmpty()) {
             throw new DogNotFoundException();
         }
         return dogRepository.findDogByOwnerPhoneNumber(ownerPhoneNumber);
     }
 
-    public List<Dog> getDogByNameOwnerNameOwnerPhoneNumber(String name, String ownerName,String ownerPhoneNumber) {
-        if(dogRepository.findDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber) == null) {
-            throw new DogNotFoundException();
-        }
+    public Dog getDogByNameOwnerNameOwnerPhoneNumber(String name, String ownerName,String ownerPhoneNumber) {
         return dogRepository.findDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber);
+    }
+
+
+    public List<Dog> getAllDogs() {
+        return dogRepository.findAllDogs();
     }
 
 
