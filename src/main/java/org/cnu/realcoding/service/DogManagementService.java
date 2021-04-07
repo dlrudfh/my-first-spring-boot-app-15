@@ -55,11 +55,11 @@ public class DogManagementService {
     }
 
 
-    public void updateDogs(String name, Dog dog) {  // 통째로 강아지 정보 수정
+    public void updateDogs(String name, String ownername, String ownerphonenumber,Dog dog) {  // 통째로 강아지 정보 수정
         if (dogRepository.findDog(name) == null) {
             throw new DogNotFoundException();
         }
-        dogRepository.updateDogs(name, dog);
+        dogRepository.updateDogs(name,ownername,ownerphonenumber,dog);
     }
 
     public void modifyDogsKind(String name, String kind) {  // 강아지 kind 정보 수정
