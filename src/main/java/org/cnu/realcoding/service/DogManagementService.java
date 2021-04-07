@@ -53,14 +53,17 @@ public class DogManagementService {
         return dogRepository.findDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber);
     }
 
-
+    public List<Dog> getAllDogs() {
+        return dogRepository.findAllDogs();
+    }
+  
     public void updateDogs(String name, Dog dog) {  // 통째로 강아지 정보 수정
         if (dogRepository.findDog(name) == null) {
             throw new DogNotFoundException();
         }
         dogRepository.updateDogs(name, dog);
     }
-
+  
     public void modifyDogsKind(String name, String kind) {  // 강아지 kind 정보 수정
         if (dogRepository.findDog(name) == null) {
             throw new DogNotFoundException();
@@ -76,3 +79,4 @@ public class DogManagementService {
     }
 
 }
+

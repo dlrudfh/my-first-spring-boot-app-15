@@ -24,7 +24,17 @@ public class DogRepository {
                         Dog.class
                 );
     }
-
+  
+    public void insertDog(Dog dog) {
+        if (mongoTemplate.exists(Query.query(Criteria.where("name").is(dog.getName())), Dog.class)) {
+            Dog newDog = mongoTemplate.findOne(Query.query(Criteria.where("name").is(dog.getName())), Dog.class);
+            if (newDog.getOwnerName().equals(dog.getOwnerName()))
+                if(newDog.getOwnerPhoneNumber().equals(dog.getOwnerPhoneNumber()))
+                    throw new DogConflictException();
+        }
+        mongoTemplate.insert(dog);
+    }
+  
     public List<Dog> findDogByName(String name) {
         Criteria criteria = new Criteria(name);
         Query query = new Query(criteria);
@@ -56,17 +66,6 @@ public class DogRepository {
         return mongoTemplate.findAll(Dog.class);
     }
 
-
-    public void insertDog(Dog dog) {
-        if (mongoTemplate.exists(Query.query(Criteria.where("name").is(dog.getName())), Dog.class)) {
-            Dog newDog = mongoTemplate.findOne(Query.query(Criteria.where("name").is(dog.getName())), Dog.class);
-            if (newDog.getOwnerName().equals(dog.getOwnerName()))
-                if(newDog.getOwnerPhoneNumber().equals(dog.getOwnerPhoneNumber()))
-                    throw new DogConflictException();
-        }
-        mongoTemplate.insert(dog);
-    }
-
     public void updateDogs(String name, Dog dog) {
         Query query = new Query(Criteria.where("name").is(name));
         Update update = new Update();
@@ -78,9 +77,6 @@ public class DogRepository {
         mongoTemplate.updateFirst(query, update, Dog.class);
 
     }
-
-
-
 
     public void modifyDogsKind(String name, String kind) {
         mongoTemplate.updateFirst(Query.query(Criteria.where("name").is(name)),
