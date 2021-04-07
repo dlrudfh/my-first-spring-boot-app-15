@@ -24,7 +24,7 @@ public class DogRepository {
                         Dog.class
                 );
     }
-
+  
     public void insertDog(Dog dog) {
         if (mongoTemplate.exists(Query.query(Criteria.where("name").is(dog.getName())), Dog.class)) {
             Dog newDog = mongoTemplate.findOne(Query.query(Criteria.where("name").is(dog.getName())), Dog.class);
@@ -33,6 +33,37 @@ public class DogRepository {
                     throw new DogConflictException();
         }
         mongoTemplate.insert(dog);
+    }
+  
+    public List<Dog> findDogByName(String name) {
+        Criteria criteria = new Criteria(name);
+        Query query = new Query(criteria);
+        return mongoTemplate.find(query, Dog.class, "name");
+    }
+
+    public List<Dog> findDogByOwnerName(String ownerName) {
+        Criteria criteria = new Criteria(ownerName);
+        Query query = new Query(criteria);
+        return mongoTemplate.find(query, Dog.class, "ownerName");
+    }
+
+    public List<Dog> findDogByOwnerPhoneNumber(String ownerPhoneNumber) {
+        Criteria criteria = new Criteria(ownerPhoneNumber);
+        Query query = new Query(criteria);
+        return mongoTemplate.find(query, Dog.class, "ownerPhoneNumber");
+    }
+    public List<Dog> findDogByNameOwnerNameOwnerPhoneNumber(String name, String ownerName, String ownerPhoneNumber) {
+        Criteria criteria = new Criteria(name);
+        criteria.is(ownerName);
+        criteria.is(ownerPhoneNumber);
+        Query query = new Query(criteria);
+        return mongoTemplate.find(query, Dog.class, "ownerPhoneNumber");
+    }
+
+
+
+    public List<Dog> findAllDogs() {
+        return mongoTemplate.findAll(Dog.class);
     }
 
     public void updateDogs(String name, Dog dog) {
@@ -45,11 +76,6 @@ public class DogRepository {
         update.set("medicalRecords", findDog(name).getMedicalRecords());
         mongoTemplate.updateFirst(query, update, Dog.class);
 
-    }
-
-
-    public List<Dog> findAllDogs() {
-        return mongoTemplate.findAll(Dog.class);
     }
 
     public void modifyDogsKind(String name, String kind) {

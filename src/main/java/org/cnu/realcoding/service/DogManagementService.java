@@ -20,7 +20,39 @@ public class DogManagementService {
     public void insertDog(Dog dog) { // 신규 강아지 등록
         dogRepository.insertDog(dog);
     }
-  
+
+    public List<Dog> getDogs() {
+        return dogRepository.findAllDogs();
+    }
+
+    public List<Dog> getDogByName(String name) {
+        if(dogRepository.findDogByName(name) == null) {
+            throw new DogNotFoundException();
+        }
+        return dogRepository.findDogByName(name);
+    }
+
+    public List<Dog> getDogByOwnerName(String ownerName) {
+        if(dogRepository.findDogByOwnerName(ownerName) == null) {
+            throw new DogNotFoundException();
+        }
+        return dogRepository.findDogByOwnerName(ownerName);
+    }
+
+    public List<Dog> getDogByOwnerPhoneNumber(String ownerPhoneNumber) {
+        if(dogRepository.findDogByOwnerPhoneNumber(ownerPhoneNumber) == null) {
+            throw new DogNotFoundException();
+        }
+        return dogRepository.findDogByOwnerPhoneNumber(ownerPhoneNumber);
+    }
+
+    public List<Dog> getDogByNameOwnerNameOwnerPhoneNumber(String name, String ownerName,String ownerPhoneNumber) {
+        if(dogRepository.findDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber) == null) {
+            throw new DogNotFoundException();
+        }
+        return dogRepository.findDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber);
+    }
+
     public List<Dog> getAllDogs() {
         return dogRepository.findAllDogs();
     }
@@ -47,3 +79,4 @@ public class DogManagementService {
     }
 
 }
+
