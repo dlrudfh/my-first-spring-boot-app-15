@@ -14,19 +14,22 @@ import java.util.List;
 @Service
 public class DogManagementService {
 
-    @Getter
     @Autowired
     private DogRepository dogRepository;
 
     public void insertDog(Dog dog) { // 신규 강아지 등록
         dogRepository.insertDog(dog);
     }
-
+  
+    public List<Dog> getDogs() {
+        return dogRepository.findAllDogs();
+    }
+  
     public void updateDogs(String name, Dog dog) {
         if (dogRepository.findDog(name) == null) {
             throw new DogNotFoundException();
-
-        } else
-            dogRepository.updateDogs(name, dog);
+        }
+        dogRepository.updateDogs(name, dog);
     }
+  
 }
