@@ -23,7 +23,17 @@ public class DogController {
 
     @GetMapping("/dogs")
     public List<Dog> getAllDogs() {
-        return dogManagementService.getDogs();
+        return dogManagementService.getAllDogs();
+    }
+
+    @PatchMapping("/dogs/{name}")
+    public void modifyDogsKind(@PathVariable String name, @RequestBody String kind) {
+        dogManagementService.modifyDogsKind(name, kind);
+    }
+
+    @PatchMapping("/dogs/{name}/{ownerName}")
+    public void addMedicalRecords(@PathVariable String name, @RequestBody String records) {
+        dogManagementService.addMedicalRecords(name, records);
     }
 
 }
