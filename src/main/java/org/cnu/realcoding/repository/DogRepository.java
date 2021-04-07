@@ -2,7 +2,6 @@ package org.cnu.realcoding.repository;
 
 import org.cnu.realcoding.domain.Dog;
 import org.cnu.realcoding.exception.DogConflictException;
-import org.cnu.realcoding.exception.DogNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -10,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -28,7 +26,7 @@ public class DogRepository {
     }
 
     public void insertDog(Dog dog) {
-        if(isDupplicated(dog))
+        if(isDuplicated(dog))
             throw new DogConflictException();
         else
         mongoTemplate.insert(dog);
@@ -75,7 +73,7 @@ public class DogRepository {
         return mongoTemplate.findAll(Dog.class);
     }
 
-    public boolean isDupplicated(Dog dog) {
+    public boolean isDuplicated(Dog dog) {
         if (mongoTemplate.exists(Query.query(Criteria.where("name").is(dog.getName())), Dog.class)) {
 
             List<Dog> dogs = mongoTemplate.find(Query.query(Criteria.where("name").is(dog.getName())), Dog.class);
@@ -95,7 +93,7 @@ public class DogRepository {
 
 
     public void updateDogs(String name, String ownername, String ownerphonenumber,Dog dog) {
-        if (isDupplicated(dog)) {
+        if (isDuplicated(dog)) {
             throw new DogConflictException();
         } else {
             Criteria criteria = new Criteria();
