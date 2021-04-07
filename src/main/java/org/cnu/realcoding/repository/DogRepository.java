@@ -52,15 +52,13 @@ public class DogRepository {
     }
 
     public Dog findDogByNameOwnerNameOwnerPhoneNumber(String name, String ownerName, String ownerPhoneNumber) {
-        if (mongoTemplate.exists(Query.query(Criteria.where("name").is(name)), Dog.class)) {
-            Dog newDog = mongoTemplate.findOne(Query.query(Criteria.where("name").is(name)), Dog.class);
-            if (newDog.getOwnerName().equals(newDog.getOwnerName())){
-                if (newDog.getOwnerPhoneNumber().equals(newDog.getOwnerPhoneNumber())) {
-                    return newDog;
-                }
-            }
-        }
-        throw new DogNotFoundException();
+        Query query = new Query();
+        Criteria criteria1 = new Criteria();
+        criteria1.where("name").is(name);
+        criteria1.and("ownerName").is(ownerName);
+        criteria1.and("ownerPhoneNumber").is(ownerPhoneNumber);
+        query.addCriteria(criteria1);
+        return mongoTemplate.findOne(query, Dog.class);
     }
 
 

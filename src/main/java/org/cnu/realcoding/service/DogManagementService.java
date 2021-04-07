@@ -43,6 +43,9 @@ public class DogManagementService {
     }
 
     public Dog getDogByNameOwnerNameOwnerPhoneNumber(String name, String ownerName,String ownerPhoneNumber) {
+        if(dogRepository.findDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber)==null) {
+            throw new DogNotFoundException();
+        }
         return dogRepository.findDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber);
     }
 
