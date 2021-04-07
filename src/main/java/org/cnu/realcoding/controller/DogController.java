@@ -21,7 +21,7 @@ public class DogController {
         dogManagementService.insertDog(dog);
     }
 
-    @PutMapping
+    @PutMapping("/dogs/{name}")
     public void updateDogs(@PathVariable String name, @RequestBody Dog dog) {
         dogManagementService.updateDogs(name, dog);
     }
