@@ -27,6 +27,24 @@ public class DogRepository {
                 );
     }
 
+    public void insertDog(Dog dog) {
+        if (mongoTemplate.exists(Query.query(Criteria.where("name").is(dog.getName())), Dog.class)) {
+
+            List<Dog> dogs = mongoTemplate.find(Query.query(Criteria.where("name").is(dog.getName())), Dog.class);
+            for(int i = 0; i < dogs.size(); i++){
+                if(dogs.get(i).getOwnerName().equals(dog.getOwnerName())){
+                    List<Dog> dogs2 = mongoTemplate.find(Query.query(Criteria.where("ownerName").is(dog.getOwnerName())), Dog.class);
+                    for(int j = 0; j < dogs2.size(); j++) {
+                        if(dogs2.get(i).getOwnerPhoneNumber().equals(dog.getOwnerPhoneNumber())){
+                            throw new DogConflictException();
+                        }
+                    }
+                }
+            }
+        }
+        mongoTemplate.insert(dog);
+    }
+
     public List<Dog> findDogByName(String name) {
         return mongoTemplate
                 .find(
