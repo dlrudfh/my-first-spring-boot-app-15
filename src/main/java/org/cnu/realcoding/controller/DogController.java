@@ -22,9 +22,9 @@ public class DogController {
     }
 
 
-    @PutMapping("/dogs/{name}")
-    public void updateDogs(@PathVariable String name, @RequestBody Dog dog) {
-        dogManagementService.updateDogs(name, dog);
+    @PutMapping("/dogs/{name}/{ownername}/{ownerphonenumber}")
+    public void updateDogs(@PathVariable String name, String ownername, String ownerphonenumber, @RequestBody Dog dog) {
+        dogManagementService.updateDogs(name, ownername, ownerphonenumber, dog);
     }
 
     @GetMapping
