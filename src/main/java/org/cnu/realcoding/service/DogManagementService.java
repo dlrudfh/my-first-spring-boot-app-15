@@ -21,10 +21,6 @@ public class DogManagementService {
         dogRepository.insertDog(dog);
     }
 
-    public List<Dog> getDogs() {
-        return dogRepository.findAllDogs();
-    }
-
     public List<Dog> getDogByName(String name) {
         if(dogRepository.findDogByName(name) == null) {
             throw new DogNotFoundException();
@@ -53,11 +49,11 @@ public class DogManagementService {
         return dogRepository.findDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber);
     }
 
-    /*
+
     public List<Dog> getAllDogs() {
         return dogRepository.findAllDogs();
     }
-    */
+
 
     public void updateDogs(String name, Dog dog) {  // 통째로 강아지 정보 수정
         if (dogRepository.findDog(name) == null) {
