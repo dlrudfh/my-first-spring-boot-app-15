@@ -21,6 +21,7 @@ public class DogController {
         dogManagementService.insertDog(dog);
     }
 
+
     @PutMapping("/dogs/{name}")
     public void updateDogs(@PathVariable String name, @RequestBody Dog dog) {
         dogManagementService.updateDogs(name, dog);
@@ -60,7 +61,7 @@ public class DogController {
 
     // http://localhost:8080/dogs?name=ian&ownername=ian&owe
     @GetMapping("/dogs")
-    public List<Dog> getDogByNameOwnerNameOwnerPhoneNumber(@RequestParam String name, @RequestParam String ownerName, @RequestParam String ownerPhoneNumber) {
+    public Dog getDogByNameOwnerNameOwnerPhoneNumber(@RequestParam String name, @RequestParam String ownerName, @RequestParam String ownerPhoneNumber) {
         return dogManagementService.getDogByNameOwnerNameOwnerPhoneNumber(name, ownerName, ownerPhoneNumber);
     }
 
