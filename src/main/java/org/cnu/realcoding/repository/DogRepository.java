@@ -32,4 +32,16 @@ public class DogRepository {
         return mongoTemplate.findAll(Dog.class);
     }
 
+    public void modifyDogsKind(String name, String kind) {
+        mongoTemplate.updateFirst(Query.query(Criteria.where("name").is(name)),
+                Update.update("kind", kind),Dog.class);
+    }
+
+    public void addMedicalRecords(String name, String records) {
+        List<String> medical_records = findDog(name).getMedicalRecords();
+        medical_records.add(0, records);
+        mongoTemplate.updateFirst(Query.query(Criteria.where("name").is(name)),
+                Update.update("medicalRecords", medical_records),
+                Dog.class);
+    }
 }
