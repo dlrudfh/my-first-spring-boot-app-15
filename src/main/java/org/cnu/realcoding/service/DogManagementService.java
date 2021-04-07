@@ -21,7 +21,7 @@ public class DogManagementService {
         dogRepository.insertDog(dog);
     }
   
-    public List<Dog> getDogs() {
+    public List<Dog> getAllDogs() {
         return dogRepository.findAllDogs();
     }
   
