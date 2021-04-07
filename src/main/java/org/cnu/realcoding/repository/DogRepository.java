@@ -114,15 +114,19 @@ public class DogRepository {
     }
 
 
-    public void modifyDogsKind(String name, String kind) {
-        mongoTemplate.updateFirst(Query.query(Criteria.where("name").is(name)),
+    public void modifyDogsKind(String name, String ownername,
+                               String ownerphonenumber, String kind) {
+        mongoTemplate.updateFirst(Query.query(Criteria.where("name").is(name).
+                        and("ownerName").is(ownername).and("ownerPhoneNumber").is(ownerphonenumber)),
                 Update.update("kind", kind), Dog.class);
     }
 
-    public void addMedicalRecords(String name, String records) {
+    public void addMedicalRecords(String name, String ownername,
+                                  String ownerphonenumber, String records) {
         List<String> medical_records = findDog(name).getMedicalRecords();
         medical_records.add(0, records);
-        mongoTemplate.updateFirst(Query.query(Criteria.where("name").is(name)),
+        mongoTemplate.updateFirst(Query.query(Criteria.where("name").is(name).
+                        and("ownerName").is(ownername).and("ownerPhoneNumber").is(ownerphonenumber)),
                 Update.update("medicalRecords", medical_records),
                 Dog.class);
     }

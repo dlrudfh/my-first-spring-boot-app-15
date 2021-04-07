@@ -32,14 +32,16 @@ public class DogController {
         return dogManagementService.getAllDogs();
     }
 
-    @PatchMapping("/dogs/{name}")
-    public void modifyDogsKind(@PathVariable String name, @RequestBody String kind) {
-        dogManagementService.modifyDogsKind(name, kind);
+    @PatchMapping("/dogs/{name}/{ownername}/{ownerphonenumber}")
+    public void modifyDogsKind(@PathVariable String name, String ownername,
+                               String ownerphonenumber, @RequestBody String kind) {
+        dogManagementService.modifyDogsKind(name, ownername, ownerphonenumber, kind);
     }
 
     @PatchMapping("/dogs/{name}/{ownerName}")
-    public void addMedicalRecords(@PathVariable String name, @RequestBody String records) {
-        dogManagementService.addMedicalRecords(name, records);
+    public void addMedicalRecords(@PathVariable String name, String ownername,
+                                  String ownerphonenumber, @RequestBody String records) {
+        dogManagementService.addMedicalRecords(name, ownername, ownerphonenumber, records);
     }
 
 
