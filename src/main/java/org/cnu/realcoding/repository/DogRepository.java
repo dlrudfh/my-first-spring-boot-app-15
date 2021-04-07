@@ -35,6 +35,19 @@ public class DogRepository {
         mongoTemplate.insert(dog);
     }
 
+    public void updateDogs(String name, Dog dog) {
+        Query query = new Query(Criteria.where("name").is(name));
+        Update update = new Update();
+        update.set("name", dog.getName());
+        update.set("kind", dog.getKind());
+        update.set("ownerName", dog.getOwnerName());
+        update.set("ownerPhoneNumber", dog.getOwnerPhoneNumber());
+        update.set("medicalRecords", findDog(name).getMedicalRecords());
+        mongoTemplate.updateFirst(query, update, Dog.class);
+
+    }
+
+
     public List<Dog> findAllDogs() {
         return mongoTemplate.findAll(Dog.class);
     }

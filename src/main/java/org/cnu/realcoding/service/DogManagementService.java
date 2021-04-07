@@ -3,6 +3,7 @@ package org.cnu.realcoding.service;
 import lombok.Getter;
 import org.cnu.realcoding.domain.Dog;
 import org.cnu.realcoding.exception.DogConflictException;
+import org.cnu.realcoding.exception.DogNotFoundException;
 import org.cnu.realcoding.repository.DogRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,11 +18,18 @@ public class DogManagementService {
     private DogRepository dogRepository;
 
     public void insertDog(Dog dog) { // 신규 강아지 등록
-
         dogRepository.insertDog(dog);
     }
-
+  
     public List<Dog> getDogs() {
         return dogRepository.findAllDogs();
     }
+  
+    public void updateDogs(String name, Dog dog) {
+        if (dogRepository.findDog(name) == null) {
+            throw new DogNotFoundException();
+        }
+        dogRepository.updateDogs(name, dog);
+    }
+  
 }
